@@ -24,4 +24,4 @@
 
 `npm start`
 
-- Runs the project and gets ready for the REST API calls.
+- Runs the project and gets ready for the REST API calls
