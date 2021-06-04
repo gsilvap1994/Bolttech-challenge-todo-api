@@ -5,7 +5,7 @@ exports.up = function (knex) {
     table.string('description').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('finish_date').nullable();
-    table.foreign('user_id');
+    table.integer('project_id').unsigned().references('projects.id');
   });
 };
 
