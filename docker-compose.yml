@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: 'bolttech_challenge_db'
+      MYSQL_USER: 'bolttech_challenge_user'
+      MYSQL_PASSWORD: 'bolttech_challenge_pw!123'
+      MYSQL_ROOT_PASSWORD: '1a2s3d4f'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:

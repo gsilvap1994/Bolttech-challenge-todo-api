@@ -1,40 +1,46 @@
 {
-  "name": "ts-node-backend",
+  "name": "bolttech-challenge-todo-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon",
-    "build": "rimraf ./build && tsc",
-    "start": "npm run buiild && node dist/index.js",
-    "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "start": " node src/index.js",
+    "lint": "eslint . --ext .js",
+    "lint-fix": "eslint . --ext .js --fix",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.js' --write",
     "prepare": "husky install",
     "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll",
+    "db:up": "docker-compose up"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.6.1",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
+    "dotenv": "^10.0.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
+    "jest": "^27.0.3",
     "nodemon": "^2.0.7",
-    "prettier": "^2.3.0",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.2"
+    "prettier": "^2.3.0"
   },
   "dependencies": {
-    "eslint-plugin-jest": "^24.3.6",
-    "jest": "^27.0.3",
-    "ts-jest": "^27.0.2"
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6",
+    "mysql2": "^2.2.5"
   }
 }
