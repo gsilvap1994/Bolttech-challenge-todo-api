@@ -7,7 +7,6 @@ const db = require('../../../database/config/knex');
 module.exports = auth;
 
 function auth(req, res, next) {
-
   // search for Bearer token
   if (!req.headers.authorization) {
     throw 'Unauthorized';

@@ -20,7 +20,6 @@ app.use('/projects', require('./app/projects/project.controller'));
 // tasks routes
 app.use('/tasks', require('./app/tasks/task.controller'));
 
-
 // Errors will be forwarded to next middleware untill gets caught in error handler
 app.use(errorHandler);
 
