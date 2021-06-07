@@ -45,7 +45,7 @@ async function auth({ email, password }) {
   user = user[0];
 
   if (!user) {
-    throw 'Something went wrong';
+    throw 'User does not exist';
   }
 
   if (!(await bcrypt.compare(password, user.password_hash))) {
