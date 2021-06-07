@@ -1,3 +1,5 @@
+// Middleware paired with Joi to produce validation error messages
+
 module.exports = validateRequest;
 
 function validateRequest(req, next, schema) {
