@@ -1,3 +1,6 @@
+// Middleware that validates the incoming request
+// by comparing to the schemas, used in create and update requests
+
 const Joi = require('joi');
 
 const UserSchema = Joi.object({
