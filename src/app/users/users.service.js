@@ -18,6 +18,10 @@ async function create(params) {
   let hash;
 
   const user = await db('users').where({ email: email });
+
+  if (!user) {
+    throw 'Something went wrong';
+  }
   if (user.length) {
     throw 'Email already taken';
   }
@@ -33,9 +37,18 @@ async function create(params) {
 
 async function auth({ email, password }) {
   let user = await db('users').select().where('email', email);
+
+  if (!user) {
+    throw 'Something went wrong';
+  }
+
   user = user[0];
 
-  if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+  if (!user) {
+    throw 'Something went wrong';
+  }
+
+  if (!(await bcrypt.compare(password, user.password_hash))) {
     throw 'Wrong credentials';
   }
 

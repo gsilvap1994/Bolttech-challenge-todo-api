@@ -5,11 +5,19 @@ module.exports = {
   getAll,
   getById,
   update,
-  deleteTask
+  deleteTask,
+  deleteAllTasks
 };
 
 async function create(params) {
-  const task = await db('tasks').where({ name: params.name });
+  const task = await db('tasks')
+    .where({ name: params.name })
+    .andWhere({ project_id: params.project_id });
+  console.log(task);
+  if (!task) {
+    throw 'Something went wrong';
+  }
+
   if (task.length) {
     throw 'Task name already exists.';
   }
@@ -33,8 +41,11 @@ async function getAll({ project_id }) {
 
 async function getById({ user_id, task_id }) {
   const tasks = await db('tasks').select().where('id', task_id);
+  if (!tasks) {
+    throw 'Something went wrong';
+  }
 
-  if (!tasks || !tasks.length) {
+  if (!tasks.length) {
     throw `Task doesn't exist`;
   }
 
@@ -58,7 +69,11 @@ async function getById({ user_id, task_id }) {
 async function update(params) {
   const tasks = await db('tasks').select().where('id', params.id);
 
-  if (!tasks || !tasks[0]) {
+  if (!task) {
+    throw 'Something went wrong.';
+  }
+
+  if (!tasks[0]) {
     throw `Task doesn't exist`;
   }
 
@@ -69,10 +84,26 @@ async function update(params) {
 
 async function deleteTask(params) {
   const tasks = await db('tasks').select().where('id', params.id);
+  if (!task) {
+    throw 'Something went wrong.';
+  }
 
-  if (!tasks || !tasks[0]) {
+  if (!tasks[0]) {
     throw `Task doesn't exist`;
   }
 
   return db('tasks').where('id', params.id).del();
+}
+
+async function deleteAllTasks(project_id) {
+  const tasks = await db('tasks').select().where('project_id', project_id);
+  if (!tasks) {
+    throw 'Something went wrong.';
+  }
+
+  if (!tasks[0]) {
+    return [];
+  }
+
+  return db('tasks').where('project_id', project_id).del();
 }

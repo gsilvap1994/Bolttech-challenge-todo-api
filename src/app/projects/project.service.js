@@ -1,4 +1,5 @@
 const db = require('../../../database/config/knex');
+const taskService = require('../tasks/task.service');
 
 module.exports = {
   create,
@@ -9,8 +10,14 @@ module.exports = {
 };
 
 async function create(params) {
-  const project = await db('projects').where({ name: params.name });
-  if (project.length) {
+  const projects = await db('projects')
+    .where({ name: params.name })
+    .andWhere({ user_id: params.user_id });
+  if (!projects) {
+    throw 'Something went wrong';
+  }
+
+  if (projects.length) {
     throw 'Project name already exists.';
   }
 
@@ -25,8 +32,11 @@ async function getAll({ user_id }) {
 
 async function getById({ user_id, project_id }) {
   const projects = await db('projects').select().where('id', project_id);
+  if (!projects) {
+    throw 'Something went wrong';
+  }
 
-  if (!projects || !projects.length) {
+  if (!projects.length) {
     throw `Project doesn't exist`;
   }
 
@@ -47,6 +57,10 @@ async function update(params) {
     .where('id', params.id)
     .andWhere('user_id', params.user_id);
 
+  if (!projects) {
+    throw 'Something went wrong';
+  }
+
   if (!projects || !projects[0]) {
     throw `Project doesn't exist`;
   }
@@ -62,9 +76,15 @@ async function deleteProject(params) {
     .where('id', params.id)
     .andWhere('user_id', params.user_id);
 
-  if (!projects || !projects[0]) {
+  if (!projects) {
+    throw 'Something went wrong';
+  }
+
+  if (!projects[0]) {
     throw `Project doesn't exist`;
   }
+
+  await taskService.deleteAllTasks(params.id);
 
   return db('projects').where('id', params.id).del();
 }
